@@ -6,6 +6,7 @@ import {
   ScrollView,
   Alert,
   SafeAreaView,
+<<<<<<< HEAD
   Modal,
   ActivityIndicator,
 } from "react-native";
@@ -14,6 +15,13 @@ import { useRouter, Stack } from "expo-router";
 import { Video, Upload, CheckCircle, XCircle } from "lucide-react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system/legacy";
+=======
+} from "react-native";
+import { useState } from "react";
+import { useRouter, Stack } from "expo-router";
+import { Video, Upload, CheckCircle, XCircle } from "lucide-react-native";
+import * as ImagePicker from "expo-image-picker";
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
 
 import {
   reportService,
@@ -21,6 +29,7 @@ import {
   initDatabase,
 } from "../lib/database";
 import { useApp } from "../contexts/AppContext";
+<<<<<<< HEAD
 import { API_BASE_URL } from "../lib/api";
 
 type FishCondition = "Normal" | "Stressed" | "Hungry";
@@ -35,10 +44,19 @@ const VIDEO_RULES = {
 
 const bytesToMB = (bytes: number) => (bytes / (1024 * 1024)).toFixed(1);
 
+=======
+
+type FishCondition = "Normal" | "Stressed" | "Hungry";
+
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
 export default function FishBehaviorScreen() {
   const router = useRouter();
   const { currentUser, waterQuality } = useApp();
 
+<<<<<<< HEAD
+=======
+  // Safe defaults (prevents crash if context hasn't loaded)
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   const safeWater = waterQuality ?? {
     temperature: 0,
     phLevel: 0,
@@ -47,13 +65,17 @@ export default function FishBehaviorScreen() {
 
   const [videoUri, setVideoUri] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+<<<<<<< HEAD
   const [processingText, setProcessingText] = useState<string>("Processing...");
   const [progress, setProgress] = useState<number>(0); // 0..1
+=======
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   const [analysisResult, setAnalysisResult] = useState<{
     fishCondition: FishCondition;
     suggestion: string;
   } | null>(null);
 
+<<<<<<< HEAD
   // ✅ cancel support
   const cancelledRef = useRef(false);
   const uploadAbortRef = useRef<AbortController | null>(null);
@@ -149,6 +171,8 @@ export default function FishBehaviorScreen() {
     }
   };
 
+=======
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   const pickVideo = async () => {
     try {
       const { status } =
@@ -164,11 +188,16 @@ export default function FishBehaviorScreen() {
 
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+<<<<<<< HEAD
+=======
+        // allowsEditing can cause issues for videos on Android, keep false
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
         allowsEditing: false,
         quality: 1,
       });
 
       if (!result.canceled && result.assets?.[0]) {
+<<<<<<< HEAD
         const asset = result.assets[0];
 
         // ✅ copy into cache (reliable upload)
@@ -200,16 +229,33 @@ export default function FishBehaviorScreen() {
    * 3) Trigger analysis by storage path (/fish/analyze_by_path)
    * 4) Poll /fish/status/{jobId}
    */
+=======
+        setVideoUri(result.assets[0].uri);
+        setAnalysisResult(null);
+        Alert.alert("Success", "✅ Video uploaded successfully!");
+      }
+    } catch (error) {
+      console.error("Pick video error:", error);
+      Alert.alert("Error", "Failed to pick video");
+    }
+  };
+
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   const analyzeVideo = async () => {
     if (!videoUri) {
       Alert.alert("Error", "Please upload a video first");
       return;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
     if (!currentUser) {
       Alert.alert("Error", "Please login first");
       return;
     }
 
+<<<<<<< HEAD
     resetCancelState();
     setProgress(0.05);
     setProcessingText("Preparing...");
@@ -418,6 +464,63 @@ export default function FishBehaviorScreen() {
       setProgress(0);
       cancelledRef.current = false;
     }
+=======
+    setIsAnalyzing(true);
+
+    setTimeout(async () => {
+      try {
+        await initDatabase();
+
+        const conditions: FishCondition[] = ["Normal", "Stressed", "Hungry"];
+        const fishCondition =
+          conditions[Math.floor(Math.random() * conditions.length)];
+
+        let suggestion = "";
+
+        if (fishCondition === "Normal") {
+          suggestion =
+            "Fish are healthy and active. Continue current care routine.";
+        } else if (fishCondition === "Stressed") {
+          suggestion =
+            "Fish may be stressed. Check tank environment, water parameters, and reduce disturbances.";
+        } else {
+          suggestion =
+            "Feed your fish now. Consider adjusting feeding schedule.";
+        }
+
+        setAnalysisResult({ fishCondition, suggestion });
+
+        await reportService.createReport(
+          currentUser.id,
+          null,
+          videoUri,
+          fishCondition,
+          suggestion,
+          safeWater.temperature,
+          safeWater.phLevel,
+          safeWater.status as any
+        );
+
+        if (fishCondition === "Stressed") {
+          await notificationService.createNotification(
+            currentUser.id,
+            "🐠 Fish stress detected. Please check your tank environment.",
+            "fish_stress"
+          );
+        }
+
+        Alert.alert(
+          "Analysis Complete",
+          "Fish behavior analysis finished successfully!"
+        );
+      } catch (e) {
+        console.error("Analyze error:", e);
+        Alert.alert("Error", "Analysis failed. Please try again.");
+      } finally {
+        setIsAnalyzing(false);
+      }
+    }, 3000);
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   };
 
   return (
@@ -425,6 +528,7 @@ export default function FishBehaviorScreen() {
       <Stack.Screen
         options={{
           headerShown: true,
+<<<<<<< HEAD
           headerStyle: { backgroundColor: "#0A1929" },
           headerTintColor: "#FFFFFF",
           headerTitle: "Fish Behavior Check",
@@ -469,6 +573,18 @@ export default function FishBehaviorScreen() {
         </View>
       </Modal>
 
+=======
+          headerStyle: {
+            backgroundColor: "#0A1929",
+          },
+          headerTintColor: "#FFFFFF",
+          headerTitle: "Fish Behavior Check",
+          headerTitleStyle: {
+            fontWeight: "600",
+          },
+        }}
+      />
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
       <View style={styles.backgroundContainer}>
         <SafeAreaView style={styles.safeArea}>
           <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -483,6 +599,7 @@ export default function FishBehaviorScreen() {
             <View style={styles.instructionsCard}>
               <Text style={styles.instructionsTitle}>📋 Instructions</Text>
               <View style={styles.instructionsList}>
+<<<<<<< HEAD
                 <Text style={styles.instructionItem}>
                   • Video must be {VIDEO_RULES.minSeconds}–{VIDEO_RULES.maxSeconds} seconds
                 </Text>
@@ -495,6 +612,13 @@ export default function FishBehaviorScreen() {
                 <Text style={styles.instructionItem}>
                   • Ensure good lighting, fish visible, avoid shaky camera
                 </Text>
+=======
+                <Text style={styles.instructionItem}>• Upload a clear video of the fish tank</Text>
+                <Text style={styles.instructionItem}>• Video must be at least 10 seconds</Text>
+                <Text style={styles.instructionItem}>• Ensure good lighting</Text>
+                <Text style={styles.instructionItem}>• Fish should be visible</Text>
+                <Text style={styles.instructionItem}>• Avoid shaky camera</Text>
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
               </View>
 
               <View style={styles.examplesContainer}>
@@ -515,6 +639,7 @@ export default function FishBehaviorScreen() {
                   <CheckCircle size={48} color="#4CAF50" />
                   <Text style={styles.videoPreviewText}>Video Ready</Text>
                   <Text style={styles.videoPreviewSubtext}>Tap Analyze to start</Text>
+<<<<<<< HEAD
 
                   <TouchableOpacity
                     style={styles.changeVideoBtn}
@@ -531,6 +656,11 @@ export default function FishBehaviorScreen() {
                   testID="upload-button"
                   disabled={isAnalyzing}
                 >
+=======
+                </View>
+              ) : (
+                <TouchableOpacity style={styles.uploadButton} onPress={pickVideo} testID="upload-button">
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
                   <Upload size={32} color="#00BCD4" strokeWidth={2} />
                   <Text style={styles.uploadButtonText}>Upload Video</Text>
                 </TouchableOpacity>
@@ -600,12 +730,16 @@ export default function FishBehaviorScreen() {
               </View>
             )}
 
+<<<<<<< HEAD
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => router.back()}
               testID="back-button"
               disabled={isAnalyzing}
             >
+=======
+            <TouchableOpacity style={styles.backButton} onPress={() => router.back()} testID="back-button">
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
               <Text style={styles.backButtonText}>Back to Dashboard</Text>
             </TouchableOpacity>
           </ScrollView>
@@ -616,6 +750,7 @@ export default function FishBehaviorScreen() {
 }
 
 const styles = StyleSheet.create({
+<<<<<<< HEAD
   backgroundContainer: { flex: 1, backgroundColor: "#0A1929" },
   safeArea: { flex: 1 },
   container: { flex: 1, paddingHorizontal: 20 },
@@ -674,6 +809,24 @@ const styles = StyleSheet.create({
   cancelBtnText: { color: "#EF5350", fontWeight: "700" },
 
   header: { alignItems: "center", marginTop: 20, marginBottom: 24 },
+=======
+  backgroundContainer: {
+    flex: 1,
+    backgroundColor: "#0A1929",
+  },
+  safeArea: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  header: {
+    alignItems: "center",
+    marginTop: 20,
+    marginBottom: 24,
+  },
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   iconContainer: {
     width: 80,
     height: 80,
@@ -683,9 +836,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 16,
   },
+<<<<<<< HEAD
   title: { fontSize: 28, fontWeight: "700", color: "#FFFFFF", marginBottom: 8 },
   subtitle: { fontSize: 15, color: "#B0BEC5" },
 
+=======
+  title: {
+    fontSize: 28,
+    fontWeight: "700",
+    color: "#FFFFFF",
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 15,
+    color: "#B0BEC5",
+  },
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   instructionsCard: {
     backgroundColor: "#132F4C",
     borderRadius: 16,
@@ -694,11 +860,33 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#1E4976",
   },
+<<<<<<< HEAD
   instructionsTitle: { fontSize: 18, fontWeight: "600", color: "#FFFFFF", marginBottom: 16 },
   instructionsList: { gap: 8, marginBottom: 16 },
   instructionItem: { fontSize: 14, color: "#B0BEC5", lineHeight: 20 },
 
   examplesContainer: { flexDirection: "row", gap: 12 },
+=======
+  instructionsTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#FFFFFF",
+    marginBottom: 16,
+  },
+  instructionsList: {
+    gap: 8,
+    marginBottom: 16,
+  },
+  instructionItem: {
+    fontSize: 14,
+    color: "#B0BEC5",
+    lineHeight: 20,
+  },
+  examplesContainer: {
+    flexDirection: "row",
+    gap: 12,
+  },
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   exampleBox: {
     flex: 1,
     flexDirection: "row",
@@ -708,9 +896,21 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
   },
+<<<<<<< HEAD
   exampleText: { fontSize: 13, color: "#FFFFFF", fontWeight: "500" },
 
   uploadSection: { gap: 16, marginBottom: 24 },
+=======
+  exampleText: {
+    fontSize: 13,
+    color: "#FFFFFF",
+    fontWeight: "500",
+  },
+  uploadSection: {
+    gap: 16,
+    marginBottom: 24,
+  },
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   uploadButton: {
     backgroundColor: "#132F4C",
     borderRadius: 16,
@@ -721,6 +921,7 @@ const styles = StyleSheet.create({
     borderColor: "#00BCD4",
     borderStyle: "dashed",
   },
+<<<<<<< HEAD
   uploadButtonText: { fontSize: 17, fontWeight: "600", color: "#00BCD4" },
 
   videoPreview: {
@@ -745,6 +946,31 @@ const styles = StyleSheet.create({
   },
   changeVideoText: { color: "#00BCD4", fontWeight: "600" },
 
+=======
+  uploadButtonText: {
+    fontSize: 17,
+    fontWeight: "600",
+    color: "#00BCD4",
+  },
+  videoPreview: {
+    backgroundColor: "#132F4C",
+    borderRadius: 16,
+    padding: 40,
+    alignItems: "center",
+    gap: 12,
+    borderWidth: 1,
+    borderColor: "#4CAF50",
+  },
+  videoPreviewText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#4CAF50",
+  },
+  videoPreviewSubtext: {
+    fontSize: 14,
+    color: "#B0BEC5",
+  },
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   analyzeButton: {
     backgroundColor: "#FF9800",
     height: 56,
@@ -752,9 +978,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+<<<<<<< HEAD
   analyzeButtonDisabled: { opacity: 0.6 },
   analyzeButtonText: { fontSize: 17, fontWeight: "600", color: "#FFFFFF" },
 
+=======
+  analyzeButtonDisabled: {
+    opacity: 0.6,
+  },
+  analyzeButtonText: {
+    fontSize: 17,
+    fontWeight: "600",
+    color: "#FFFFFF",
+  },
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   resultCard: {
     backgroundColor: "#132F4C",
     borderRadius: 16,
@@ -764,6 +1001,7 @@ const styles = StyleSheet.create({
     borderColor: "#1E4976",
     gap: 16,
   },
+<<<<<<< HEAD
   resultTitle: { fontSize: 20, fontWeight: "700", color: "#FFFFFF", marginBottom: 4 },
   resultRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
   resultLabel: { fontSize: 16, color: "#B0BEC5", fontWeight: "500" },
@@ -793,3 +1031,113 @@ const styles = StyleSheet.create({
   backButton: { height: 56, justifyContent: "center", alignItems: "center", marginBottom: 30 },
   backButtonText: { fontSize: 16, color: "#00BCD4", fontWeight: "600" },
 });
+=======
+  resultTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#FFFFFF",
+    marginBottom: 4,
+  },
+  resultRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  resultLabel: {
+    fontSize: 16,
+    color: "#B0BEC5",
+    fontWeight: "500",
+  },
+  conditionBadge: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  conditionNormal: {
+    backgroundColor: "rgba(76, 175, 80, 0.2)",
+  },
+  conditionStressed: {
+    backgroundColor: "rgba(239, 83, 80, 0.2)",
+  },
+  conditionHungry: {
+    backgroundColor: "rgba(255, 152, 0, 0.2)",
+  },
+  conditionText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#FFFFFF",
+  },
+  suggestionBox: {
+    backgroundColor: "#0A1929",
+    padding: 16,
+    borderRadius: 12,
+    gap: 8,
+  },
+  suggestionLabel: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#FFFFFF",
+  },
+  suggestionText: {
+    fontSize: 14,
+    color: "#B0BEC5",
+    lineHeight: 20,
+  },
+  waterQualitySummary: {
+    backgroundColor: "#0A1929",
+    padding: 16,
+    borderRadius: 12,
+    gap: 12,
+  },
+  summaryTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#FFFFFF",
+    marginBottom: 4,
+  },
+  summaryRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  summaryLabel: {
+    fontSize: 14,
+    color: "#B0BEC5",
+  },
+  summaryValue: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#FFFFFF",
+  },
+  statusBadge: {
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  statusSafe: {
+    backgroundColor: "rgba(76, 175, 80, 0.2)",
+  },
+  statusWarning: {
+    backgroundColor: "rgba(255, 152, 0, 0.2)",
+  },
+  statusDangerous: {
+    backgroundColor: "rgba(239, 83, 80, 0.2)",
+  },
+  statusText: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: "#FFFFFF",
+  },
+  backButton: {
+    height: 56,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 30,
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: "#00BCD4",
+    fontWeight: "600",
+  },
+});
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e

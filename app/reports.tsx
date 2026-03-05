@@ -7,9 +7,14 @@ import {
   Alert,
   SafeAreaView,
 } from "react-native";
+<<<<<<< HEAD
 import { useState, useCallback } from "react";
 import { useRouter, Stack } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
+=======
+import { useState, useEffect } from "react";
+import { useRouter, Stack } from "expo-router";
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
 import { FileText, Trash2, Calendar } from "lucide-react-native";
 
 import { reportService, initDatabase } from "../lib/database";
@@ -23,9 +28,19 @@ export default function ReportsScreen() {
   const [reports, setReports] = useState<FishReport[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+<<<<<<< HEAD
   const loadReports = useCallback(async () => {
     if (!currentUser) {
       setReports([]);
+=======
+  useEffect(() => {
+    loadReports();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const loadReports = async () => {
+    if (!currentUser) {
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
       setIsLoading(false);
       return;
     }
@@ -37,6 +52,7 @@ export default function ReportsScreen() {
       setReports(userReports);
     } catch (error) {
       console.error("Failed to load reports:", error);
+<<<<<<< HEAD
       setReports([]);
     } finally {
       setIsLoading(false);
@@ -49,6 +65,12 @@ export default function ReportsScreen() {
       loadReports();
     }, [loadReports])
   );
+=======
+    } finally {
+      setIsLoading(false);
+    }
+  };
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
 
   const handleDeleteReport = (reportId: number) => {
     Alert.alert("Delete Report", "Are you sure you want to delete this report?", [
@@ -103,10 +125,21 @@ export default function ReportsScreen() {
       <Stack.Screen
         options={{
           headerShown: true,
+<<<<<<< HEAD
           headerStyle: { backgroundColor: "#0A1929" },
           headerTintColor: "#FFFFFF",
           headerTitle: "Past Reports",
           headerTitleStyle: { fontWeight: "600" },
+=======
+          headerStyle: {
+            backgroundColor: "#0A1929",
+          },
+          headerTintColor: "#FFFFFF",
+          headerTitle: "Past Reports",
+          headerTitleStyle: {
+            fontWeight: "600",
+          },
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
         }}
       />
       <View style={styles.backgroundContainer}>
@@ -118,12 +151,15 @@ export default function ReportsScreen() {
               </View>
               <Text style={styles.title}>Analysis History</Text>
               <Text style={styles.subtitle}>View saved reports</Text>
+<<<<<<< HEAD
 
               <TouchableOpacity onPress={loadReports} style={{ marginTop: 10 }}>
                 <Text style={{ color: "#00BCD4", fontWeight: "600" }}>
                   Refresh
                 </Text>
               </TouchableOpacity>
+=======
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
             </View>
 
             {isLoading ? (
@@ -240,10 +276,29 @@ export default function ReportsScreen() {
 }
 
 const styles = StyleSheet.create({
+<<<<<<< HEAD
   backgroundContainer: { flex: 1, backgroundColor: "#0A1929" },
   safeArea: { flex: 1 },
   container: { flex: 1, paddingHorizontal: 20 },
   header: { alignItems: "center", marginTop: 20, marginBottom: 32 },
+=======
+  backgroundContainer: {
+    flex: 1,
+    backgroundColor: "#0A1929",
+  },
+  safeArea: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  header: {
+    alignItems: "center",
+    marginTop: 20,
+    marginBottom: 32,
+  },
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   iconContainer: {
     width: 80,
     height: 80,
@@ -253,12 +308,43 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 16,
   },
+<<<<<<< HEAD
   title: { fontSize: 28, fontWeight: "700", color: "#FFFFFF", marginBottom: 8 },
   subtitle: { fontSize: 15, color: "#B0BEC5" },
   emptyState: { alignItems: "center", justifyContent: "center", paddingVertical: 60 },
   emptyText: { fontSize: 18, color: "#B0BEC5", marginBottom: 8 },
   emptySubtext: { fontSize: 14, color: "#78909C" },
   reportsList: { gap: 16, paddingBottom: 20 },
+=======
+  title: {
+    fontSize: 28,
+    fontWeight: "700",
+    color: "#FFFFFF",
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 15,
+    color: "#B0BEC5",
+  },
+  emptyState: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 60,
+  },
+  emptyText: {
+    fontSize: 18,
+    color: "#B0BEC5",
+    marginBottom: 8,
+  },
+  emptySubtext: {
+    fontSize: 14,
+    color: "#78909C",
+  },
+  reportsList: {
+    gap: 16,
+    paddingBottom: 20,
+  },
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   reportCard: {
     backgroundColor: "#132F4C",
     borderRadius: 16,
@@ -275,8 +361,20 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#1E4976",
   },
+<<<<<<< HEAD
   dateContainer: { flexDirection: "row", alignItems: "center", gap: 8 },
   dateText: { fontSize: 13, color: "#B0BEC5" },
+=======
+  dateContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  dateText: {
+    fontSize: 13,
+    color: "#B0BEC5",
+  },
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   deleteButton: {
     width: 36,
     height: 36,
@@ -285,6 +383,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+<<<<<<< HEAD
   reportContent: { gap: 16 },
   reportRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
   reportLabel: { fontSize: 15, color: "#B0BEC5", fontWeight: "500" },
@@ -297,6 +396,66 @@ const styles = StyleSheet.create({
   suggestionContainer: { backgroundColor: "#0A1929", padding: 12, borderRadius: 8 },
   suggestionLabel: { fontSize: 13, fontWeight: "600", color: "#FFFFFF", marginBottom: 6 },
   suggestionText: { fontSize: 13, color: "#B0BEC5", lineHeight: 18 },
+=======
+  reportContent: {
+    gap: 16,
+  },
+  reportRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  reportLabel: {
+    fontSize: 15,
+    color: "#B0BEC5",
+    fontWeight: "500",
+  },
+  badge: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+  },
+  badgeText: {
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  metricsRow: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  metric: {
+    flex: 1,
+    backgroundColor: "#0A1929",
+    padding: 12,
+    borderRadius: 8,
+  },
+  metricLabel: {
+    fontSize: 12,
+    color: "#78909C",
+    marginBottom: 4,
+  },
+  metricValue: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#FFFFFF",
+  },
+  suggestionContainer: {
+    backgroundColor: "#0A1929",
+    padding: 12,
+    borderRadius: 8,
+  },
+  suggestionLabel: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: "#FFFFFF",
+    marginBottom: 6,
+  },
+  suggestionText: {
+    fontSize: 13,
+    color: "#B0BEC5",
+    lineHeight: 18,
+  },
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   backButton: {
     height: 56,
     justifyContent: "center",
@@ -304,5 +463,14 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginTop: 10,
   },
+<<<<<<< HEAD
   backButtonText: { fontSize: 16, color: "#00BCD4", fontWeight: "600" },
 });
+=======
+  backButtonText: {
+    fontSize: 16,
+    color: "#00BCD4",
+    fontWeight: "600",
+  },
+});
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e

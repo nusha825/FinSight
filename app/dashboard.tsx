@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 // app/dashboard.tsx
+=======
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
 import React from "react";
 import {
   View,
@@ -17,8 +20,11 @@ import {
   Bell,
   LogOut,
   PlusCircle,
+<<<<<<< HEAD
   User,
   List,
+=======
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
 } from "lucide-react-native";
 
 import { useApp } from "../contexts/AppContext";
@@ -78,11 +84,24 @@ export default function DashboardScreen() {
   return (
     <View style={styles.backgroundContainer}>
       <SafeAreaView style={styles.safeArea}>
+<<<<<<< HEAD
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
           <View style={styles.header}>
             <View>
               <Text style={styles.greeting}>Hello,</Text>
               <Text style={styles.userName}>{currentUser?.fullName || "User"}!</Text>
+=======
+        <ScrollView
+          style={styles.container}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.header}>
+            <View>
+              <Text style={styles.greeting}>Hello,</Text>
+              <Text style={styles.userName}>
+                {currentUser?.fullName || "User"}!
+              </Text>
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
             </View>
             <TouchableOpacity
               onPress={handleLogout}
@@ -97,6 +116,7 @@ export default function DashboardScreen() {
 
           <View style={styles.features}>
             <FeatureCard
+<<<<<<< HEAD
               icon={<User size={28} color="#00BCD4" strokeWidth={2} />}
               title="My Profile"
               description="View & edit profile settings"
@@ -115,6 +135,8 @@ export default function DashboardScreen() {
             />
 
             <FeatureCard
+=======
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
               icon={<PlusCircle size={28} color="#4CAF50" strokeWidth={2} />}
               title="Add Aquarium Details"
               description="Manage your aquariums"
@@ -245,4 +267,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#B0BEC5",
   },
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e

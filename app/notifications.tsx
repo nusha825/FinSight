@@ -5,11 +5,18 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
+<<<<<<< HEAD
   Alert,
 } from "react-native";
 import { useState, useEffect } from "react";
 import { useRouter, Stack } from "expo-router";
 import { Bell, AlertCircle, Info, Clock, Trash2 } from "lucide-react-native";
+=======
+} from "react-native";
+import { useState, useEffect } from "react";
+import { useRouter, Stack } from "expo-router";
+import { Bell, AlertCircle, Info, Clock } from "lucide-react-native";
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
 
 import { notificationService, initDatabase } from "../lib/database";
 import { useApp } from "../contexts/AppContext";
@@ -55,6 +62,7 @@ export default function NotificationsScreen() {
   };
 
   const handleMarkAsRead = async (notificationId: number) => {
+<<<<<<< HEAD
     try {
       await initDatabase();
       const success = await notificationService.markAsRead(notificationId);
@@ -94,6 +102,18 @@ export default function NotificationsScreen() {
     ]);
   };
 
+=======
+    const success = await notificationService.markAsRead(notificationId);
+    if (success) {
+      setNotifications((prev) =>
+        prev.map((n: any) =>
+          n.id === notificationId ? { ...n, isRead: true } : n
+        )
+      );
+    }
+  };
+
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -151,11 +171,14 @@ export default function NotificationsScreen() {
               </View>
               <Text style={styles.title}>Notifications</Text>
               <Text style={styles.subtitle}>Alerts & reminders</Text>
+<<<<<<< HEAD
 
               {/* Optional manual refresh */}
               <TouchableOpacity onPress={loadNotifications} style={{ marginTop: 10 }}>
                 <Text style={{ color: "#00BCD4", fontWeight: "600" }}>Refresh</Text>
               </TouchableOpacity>
+=======
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
             </View>
 
             {isLoading ? (
@@ -179,11 +202,15 @@ export default function NotificationsScreen() {
                     ]}
                     onPress={() => handleMarkAsRead(notification.id)}
                     testID={`notification-${notification.id}`}
+<<<<<<< HEAD
                     activeOpacity={0.9}
+=======
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
                   >
                     <View style={styles.notificationIcon}>
                       {getNotificationIcon(notification.type)}
                     </View>
+<<<<<<< HEAD
 
                     <View style={styles.notificationContent}>
                       <View style={styles.topRow}>
@@ -200,6 +227,12 @@ export default function NotificationsScreen() {
                         </TouchableOpacity>
                       </View>
 
+=======
+                    <View style={styles.notificationContent}>
+                      <Text style={styles.notificationMessage}>
+                        {notification.message}
+                      </Text>
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
                       <View style={styles.notificationFooter}>
                         <Clock size={14} color="#78909C" />
                         <Text style={styles.notificationTime}>
@@ -306,6 +339,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 8,
   },
+<<<<<<< HEAD
   topRow: {
     flexDirection: "row",
     alignItems: "flex-start",
@@ -314,10 +348,14 @@ const styles = StyleSheet.create({
   },
   notificationMessage: {
     flex: 1,
+=======
+  notificationMessage: {
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
     fontSize: 15,
     color: "#FFFFFF",
     lineHeight: 22,
   },
+<<<<<<< HEAD
   deleteBtn: {
     width: 34,
     height: 34,
@@ -326,6 +364,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+=======
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
   notificationFooter: {
     flexDirection: "row",
     alignItems: "center",
@@ -354,4 +394,8 @@ const styles = StyleSheet.create({
     color: "#00BCD4",
     fontWeight: "600",
   },
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e

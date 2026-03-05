@@ -524,6 +524,7 @@
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
           <option name="api" value="35" />
+<<<<<<< HEAD
           <option name="brand" value="motorola" />
           <option name="codename" value="cuscoi" />
           <option name="id" value="cuscoi" />
@@ -536,6 +537,8 @@
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
           <option name="api" value="35" />
+=======
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
           <option name="brand" value="samsung" />
           <option name="codename" value="dm1q" />
           <option name="id" value="dm1q" />

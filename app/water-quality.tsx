@@ -127,7 +127,11 @@ export default function WaterQualityScreen() {
                 <Text style={styles.metricValue}>{waterQuality.phLevel}</Text>
                 <View style={styles.rangeBar}>
                   <View style={styles.rangeOptimal}>
+<<<<<<< HEAD
                     <Text style={styles.rangeText}>Optimal: 6.5-7.5</Text>
+=======
+                    <Text style={styles.rangeText}>Optimal: 6.8-7.5</Text>
+>>>>>>> 3b9265f1c86c1c593e308c43190dba1360def82e
                   </View>
                 </View>
               </View>
